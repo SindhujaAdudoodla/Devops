@@ -2,6 +2,21 @@ version: 0.0
 os: linux 
 files:
   - source: /file2.html
-    destination: /var/www/html
+    destination:
+ hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/change_permissions
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_server
+    - location: scripts/create_test_db
+      timeout: 300
+      runas: root   
+    
     
     
